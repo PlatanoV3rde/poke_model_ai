@@ -1,0 +1,31 @@
+# Rutas base (ajustar según tu sistema operativo)
+paths:
+  # Datos
+  data_dir: "./data"
+  smd_references: "${paths.data_dir}/smd_references"
+  images:
+    train: "${paths.data_dir}/images/train"
+    test: "${paths.data_dir}/images/test"
+  masks:
+    train: "${paths.data_dir}/masks/train"
+    test: "${paths.data_dir}/masks/test"
+  textures: "${paths.data_dir}/textures"
+  
+  # Modelos IA
+  ai_models: "./ai_models"
+  unet_weights: "${paths.ai_models}/segmentation/weights/unet_pokemon.pth"
+  gan_weights: "${paths.ai_models}/3d_gan/weights/generator.pth"
+  
+  # Salidas
+  outputs: "./outputs"
+  generated_3d: "${paths.outputs}/generated_3d"
+  converted_smd: "${paths.outputs}/converted_smd"
+  
+  # Blender
+  blender_install: 
+    windows: "C:/Program Files/Blender Foundation/Blender/blender.exe"
+    linux: "/usr/bin/blender"
+    mac: "/Applications/Blender.app/Contents/MacOS/Blender"
+  
+  # Scripts
+  blender_scripts: "./blender_scripts"

@@ -1,0 +1,31 @@
+# Configuración de exportación .SMD
+export:
+  scale: 0.01  # Escala para importar/exportar (ajuste para Source Engine)
+  up_axis: "Z"  # Eje vertical
+  bone_settings:
+    root_bone: "root"
+    rename_map:  # Mapeo de huesos para Source Engine
+      spine: ["spine", "spine_01", "spine_02"]
+      arm_L: ["arm_left", "hand_left"]
+      arm_R: ["arm_right", "hand_right"]
+  
+  # Parámetros de renderizado para previews
+  render:
+    resolution: [1024, 1024]
+    cycles_samples: 128
+    denoising: true
+  
+  # Auto-rigging
+  rig_presets:
+    biped:  # Ejemplo para Pikachu
+      root: [0, 0, 0]
+      spine: [0, 0, 1.2]
+      head: [0, 0, 2.0]
+      arm_L: [0.5, 0, 1.5]
+      arm_R: [-0.5, 0, 1.5]
+    quadruped:  # Ejemplo para Charizard
+      root: [0, 0, 0]
+      spine: [0, 0, 0.8]
+      head: [0, 1.0, 1.2]
+      leg_FL: [0.3, 0.5, 0.5]
+      leg_FR: [-0.3, 0.5, 0.5]
