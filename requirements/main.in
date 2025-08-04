@@ -1,0 +1,10 @@
+# Módulos principales
+numpy>=1.21
+opencv-python>=4.5
+torch>=1.10
+torchvision>=0.11
+pyyaml>=6.0
+fastapi>=0.85  # Para futura API
+
+# Blender
+bpy>=2.93  # Solo para entornos con Blender instalado

@@ -1,53 +1,34 @@
 import bpy
-from mathutils import Vector
 
-def create_bone(name, head, tail, parent=None):
-    """Crea un hueso y lo retorna."""
-    bone = bpy.context.active_object.data.edit_bones.new(name)
-    bone.head = head
-    bone.tail = tail
-    if parent:
-        bone.parent = parent
-    return bone
-
-def auto_rig_pokemon(obj, rig_type='biped'):
-    """
-    Crea un esqueleto básico según el tipo de Pokémon:
-    - 'biped': Para Pokémon bípedos (Lucario, Pikachu).
-    - 'quad': Para cuadrúpedos (Arcanine, Raikou).
-    """
+def create_pokemon_rig(obj, rig_type='biped'):
+    bpy.ops.object.mode_set(mode='OBJECT')
+    bpy.ops.object.select_all(action='DESELECT')
+    obj.select_set(True)
     bpy.context.view_layer.objects.active = obj
-    bpy.ops.object.mode_set(mode='EDIT')
     
+    # Crear armadura
     armature = bpy.data.armatures.new(f"{obj.name}_Armature")
     rig = bpy.data.objects.new(f"{obj.name}_Rig", armature)
     bpy.context.scene.collection.objects.link(rig)
     
-    # Forzamos a Blender a entrar en modo edición de armadura
+    # Rigging básico
     bpy.context.view_layer.objects.active = rig
     bpy.ops.object.mode_set(mode='EDIT')
     
-    # Hueso raíz (obligatorio para Source Engine)
-    root_bone = create_bone("root", Vector((0, 0, 0)), Vector((0, 0, 1)))
+    bones = []
+    root = rig.data.edit_bones.new("root")
+    root.head = (0, 0, 0)
+    root.tail = (0, 0, 0.5)
+    bones.append(root)
     
     if rig_type == 'biped':
-        # Esqueleto para bípedos
-        spine = create_bone("spine", Vector((0, 0, 1.2)), Vector((0, 0, 2)), root_bone)
-        create_bone("head", Vector((0, 0, 2)), Vector((0, 0, 2.5)), spine)
-        # Brazos
-        create_bone("arm_L", Vector((0, 0, 1.8)), Vector((1, 0, 1.8)), spine)
-        create_bone("arm_R", Vector((0, 0, 1.8)), Vector((-1, 0, 1.8)), spine)
-    elif rig_type == 'quad':
-        # Esqueleto para cuadrúpedos
-        spine = create_bone("spine", Vector((0, 0, 0.8)), Vector((0, 0, 1.5)), root_bone)
-        create_bone("head", Vector((0, 0, 1.5)), Vector((0, 1, 1.5)), spine)
-        # Patas
-        create_bone("leg_FL", Vector((0.5, 0.5, 0.5)), Vector((1, 1, 0)), spine)
-        create_bone("leg_FR", Vector((-0.5, 0.5, 0.5)), Vector((-1, 1, 0)), spine)
+        spine = rig.data.edit_bones.new("spine")
+        spine.head = root.head
+        spine.tail = (0, 0, 1.5)
+        spine.parent = root
+        bones.append(spine)
+        
+        # Añadir más huesos...
     
     bpy.ops.object.mode_set(mode='OBJECT')
     return rig
-
-# Ejemplo de uso:
-# obj = bpy.context.active_object
-# auto_rig_pokemon(obj, rig_type='quad')
